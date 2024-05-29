@@ -52,12 +52,19 @@ namespace GuessTheNumber
 
         static void PerformGuessing(int minRange, int maxRange)
         {   
+            HashSet<int> guesses = new HashSet<int>();
             int originalMinRange = minRange;
             int originalMaxRange = maxRange;
             bool correctGuess = false;
             while (!correctGuess)
             {
                 int guess = (minRange + maxRange) / 2;
+                
+                if (guesses.Contains(guess))
+                {
+                    Console.WriteLine("YOU LIED TO ME SOMEWHERE! GAME IS OVER! I WON!!!");
+                    return;
+                }
 
                 if (guess < originalMinRange || guess > originalMaxRange)
                 {
@@ -65,6 +72,8 @@ namespace GuessTheNumber
                     Console.WriteLine("YOU LIED TO ME! GAME IS OVER!!!");
                     return;
                 }
+                
+                guesses.Add(guess);
                 Console.WriteLine($"Is your number {guess}? (respond with '>', '<', or 'Yes'):");
                 string response = (Console.ReadLine() ?? string.Empty).Trim().ToLower();
 
